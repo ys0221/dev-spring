@@ -8,7 +8,7 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
-    public PersonService(@Qualifier("personRepositoryV2") PersonRepository personRepository) {
+    public PersonService(@Qualifier("personRepository") PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
