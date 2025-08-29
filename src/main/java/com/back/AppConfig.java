@@ -1,49 +1,39 @@
 package com.back;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.context.annotation.Lazy;
 
 @Configuration
+@RequiredArgsConstructor
 public class AppConfig {
 
-    @Bean
-    public PersonRepository personRepository() {
-        return new PersonRepository(1);
-    }
+    @Autowired
+    @Lazy
+    private  AppConfig self; // final -> 생성자로만 주입 가능
+    // final 없애고 autowired 로 필드 주입
 
     @Bean
-    public PersonRepository personRepositoryV2() {
-        return new PersonRepository(2);
+    public ApplicationRunner myApplicationRunner3() {
+        return args -> {
+               self.work1();
+               self.work2();
+        };
     }
 
-    @Bean
-    @Order(2)
-    public ApplicationRunner myApplicationRunner1() {
-        return new MyApplicationRunner(1);
+    @Transactional // myApplicationRunner3 에서 실행할 때 작동 안 됨
+    // this 이용해서 자기 자신의 메서드 이용할 때는 transactional 사용 안 함
+    public void work1() {
+        System.out.println("work1");
     }
 
-    @Bean
-    @Order(1)
-    public ApplicationRunner myApplicationRunner2() {
-        return new MyApplicationRunner(2);
-    }
-
-//    @Bean
-//    public ApplicationRunner myApplicationRunner3() {
-//        return args -> {
-//               work1();
-//               work2();
-//        };
-//    }
-//
-//    public void work1() {
-//        System.out.println("work1");
-//    }
-//
-//    public void work2() {
-//        System.out.println("work2");
-//    }
+    @Transactional
+    public void work2() {
+        System.out.println("work2");
+   }
 
 }
