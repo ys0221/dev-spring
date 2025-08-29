@@ -25,7 +25,7 @@ public class WiseSayingController {
 
     private int lastId = 0;
 
-    @GetMapping("/wiseSaying/write")
+    @GetMapping("/wiseSayings/write")
     @ResponseBody // 화면에 나오게
     public String write(
             String content,
@@ -46,7 +46,7 @@ public class WiseSayingController {
     }
 
 
-    @GetMapping("/wiseSaying/list")
+    @GetMapping("/wiseSayings/list")
     @ResponseBody
     public String list() {
 
@@ -60,9 +60,23 @@ public class WiseSayingController {
                 """.formatted(wiseSayings);
     }
 
+    @GetMapping("/wiseSayings/{id}")
+    @ResponseBody
+    public String deail(
+            @PathVariable int id
+    ) {
+
+        WiseSaying wiseSaying = findById(id);
+        return """
+                <h1>번호 : %s</h1>
+                <div>명언 : %s</div>
+                <div>작가 : %s</div>
+                """.formatted(wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor());
+    }
+
     // 식별자(id) -> url 에 포함 -> 변수화
     // 부가정보 -> queryString 에 포함
-    @GetMapping("/wiseSaying/delete/{id}")
+    @GetMapping("/wiseSayings/delete/{id}")
     @ResponseBody
     public String delete(
             @PathVariable int id // url 에 있는 변수 받기 - 이름 일치시켜주기
@@ -75,7 +89,7 @@ public class WiseSayingController {
 
     }
 
-    @GetMapping("/wiseSaying/modify/{id}")
+    @GetMapping("/wiseSayings/modify/{id}")
     @ResponseBody
     public String modify(
             @PathVariable int id,
