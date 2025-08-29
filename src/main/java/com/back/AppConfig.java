@@ -1,7 +1,6 @@
 package com.back;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 @Configuration
-@RequiredArgsConstructor
 public class AppConfig {
 
     // 왜 lazy 와 self 를 사용해야하는가?
@@ -24,11 +22,6 @@ public class AppConfig {
     // self 가 진짜에 존재 -> lazy 로 선언 -> 프록시에도 self 를 만든다
     // 모든 객체는 this 를 갖고 있음 = 자기 자신을 가리킴 -> self 를 빼면 기본으로 this 가 붙어있음
     // 프록시에서 this -> 진짜의 self 를 가리킨다
-
-
-
-
-
 
     @Autowired
     @Lazy
